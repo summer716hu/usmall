@@ -19,7 +19,7 @@ export default {
     return {
       info: {
         isShow: false,
-        title: "商品管理添加",
+        title: "秒杀活动添加",
         isAdd: true, //默认添加
       },
     };
@@ -27,13 +27,13 @@ export default {
   methods: {
     willAdd() {
       this.info.isShow = !this.info.isShow;
-      (this.info.title = "商品管理添加"), (this.info.isAdd = true);
+      (this.info.title = "秒杀活动添加"), (this.info.isAdd = true);
       this.$refs.one.empty();
     },
     // 编辑
     edit(id) {
       this.info.isShow = true;
-      (this.info.title = "商品管理修改"), (this.info.isAdd = false);
+      (this.info.title = "秒杀活动修改"), (this.info.isAdd = false);
       this.$refs.one.look(id);
     },
   },

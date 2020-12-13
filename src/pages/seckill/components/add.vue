@@ -143,7 +143,6 @@ export default {
             }
           }]
         },
-        // value2: ''
     };
   },
   methods: {
@@ -181,7 +180,7 @@ export default {
     add() {
       reqseckAdd(this.form).then((res) => {
         this.hide();
-        this.empty();
+        // this.empty();
         this.requestseckList();
       });
     },
