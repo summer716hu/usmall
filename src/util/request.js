@@ -429,11 +429,10 @@ export const reqseckAdd = (id) => {
 }
 
 // 限时秒杀列表
-export const reqseckList = (params) => {
+export const reqseckList = () => {
     return axios({
         url: baseUrl + '/api/secklist',
         method: 'get',
-        params: params,
     })
 }
 // 限时秒杀获取数据（一条）

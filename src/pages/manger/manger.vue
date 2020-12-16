@@ -33,7 +33,7 @@ methods:{
         this.info.isAdd=true;
         this.$refs.one.empty();
     },
-    edit(){
+    edit(id){
         this.info.isShow=true;
         this.info.title='管理员修改';
         this.info.isAdd=false;

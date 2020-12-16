@@ -26,18 +26,19 @@ const actions={
         requserList({
             size:context.state.size,
             page:context.state.page,
+           
         }).then(res=>{
             context.commit('changeList',res.data.list)
         })
     },
     requestuserCount(context){//请求获取总条数
         requserCount().then(res=>{
-            // console.log(res);
+            console.log(res);
             context.commit('changeCount',res.data.list[0].total);
         })
     },
     changeCurrentPages(context,page){//修改当前的页码数
-            // console.log(context,page);
+            console.log(context,page);
             context.commit('changePage',page);
             //mutations没有权限修改actions所以需要借助仓库（context）
             context.dispatch('requestuserList');

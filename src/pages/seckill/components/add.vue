@@ -10,13 +10,11 @@
           <div class="block">
             <span class="demonstration"></span>
             <el-date-picker
-              v-model="value2"
-              type="datetimerange"
-              :picker-options="pickerOptions"
+              v-model="values"
+              type="datetimerange"  
               range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              align="right"
+              begintime-placeholder="开始日期"
+              endtime-placeholder="结束日期"
             >
             </el-date-picker>
           </div>
@@ -53,13 +51,13 @@
         </el-form-item>
 
         <el-form-item label="商品" :label-width="width">
-          <el-select v-model="form.specsid" placeholder="--请选择--">
-            <el-option label="顶级菜单" :value="0"></el-option>
+          <el-select v-model="form.goodsid" placeholder="--请选择--">
+            <!-- <el-option label="顶级菜单" :value="0"></el-option> -->
             <!-- 动态循环添加数据  商品分类 -->
             <el-option
-              v-for="item in specList"
+              v-for="item in goodList"
               :key="item.id"
-              :label="item.specsname"
+              :label="item.goodsname"
               :value="item.id"
             ></el-option>
           </el-select>
@@ -94,7 +92,7 @@ export default {
   props: ["info"],
   computed: {
     ...mapGetters({
-      specList: "spec/list",
+      goodList: "goods/list",
       cateList: "classify/list",
       seckList: "seck/list",
     }),
@@ -103,48 +101,20 @@ export default {
   data() {
     return {
       width: "160px",
+      values: [],
       secondCate: [], //用于存放二级分类
-      secondSpec: [], //用来存放规格属性
-      value2: [],
       form: {
         first_cateid: 0,
         second_cateid: 0,
-        begintime: "",
-        endtime: "",
+        begintime: 0,
+        endtime: 0,
         title: "",
-        specsid: 0,
-        specsattr: [],
         status: 1,
+        goodsid: 0,
       },
-       pickerOptions: {
-          shortcuts: [{
-            text: '最近一周',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '最近一个月',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '最近三个月',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
-            }
-          }]
-        },
     };
   },
+  
   methods: {
     //让弹框消失
     hide() {
@@ -156,55 +126,62 @@ export default {
       this.form = {
         first_cateid: 0,
         second_cateid: 0,
-        begintime: "",
-        endtime: "",
+        begintime: 0,
+        endtime: 0,
         title: "",
-        specsid: 0,
-        specsattr: [],
         status: 1,
+        goodsid: 0,
       };
     },
+    
     ...mapActions({
-      requestspecsList: "spec/requestspecsList",
+      requestgoodsList: "goods/requestgoodsList",
       requestcateList: "classify/requestcateList",
-      requestseckList:"seck/requestseckList",
+      requestseckList: "seck/requestseckList",
     }),
     // 修改二级分类
     changeCate() {
       this.secondCate = this.cateList.find((item) => {
         return item.id == this.form.first_cateid;
-      }).children;
+      });
     },
 
     //添加
     add() {
+      this.form.begintime= Date.parse(this.values[0]);
+      this.form.endtime=Date.parse(this.values[1]);
       reqseckAdd(this.form).then((res) => {
+        console.log(res);
         this.hide();
-        // this.empty();
         this.requestseckList();
       });
     },
     // 查并获取一条数据
     look(id) {
+      this.values=[];
       reqseckListOne({ id: id }).then((res) => {
         this.form = res.data.list;
         this.form.id = id;
-        // this.form.title = title;
-        // this.form.specsattr = this.form.specsattr.split(",");
+        this.values.push(new Date(parseInt(this.form.begintime)))
+        this.values.push(new Date(parseInt(this.form.endtime)))
       });
     },
     // 修改
     update() {
+      this.form.begintime=Date.parse(this.values[0]);
+      this.form.endtime=Date.parse(this.values[1]);
       reqseckEdit(this.form).then((res) => {
         this.hide();
-        this.requestcateList();
-        // this.empty();
+        // this.requestcateList();
+        this.requestseckList();
       });
     },
   },
   mounted() {
-    this.requestspecsList();
+    this.requestgoodsList();
     this.requestcateList();
+    this.requestseckList();
+    
   },
 };
 </script>

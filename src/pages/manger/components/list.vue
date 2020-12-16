@@ -41,7 +41,7 @@
       :total="total"
       :page-size="size"
       :current-page="page"
-      
+      @current-change="changeCurrentPage"
     >
     </el-pagination>
   </div>
@@ -85,7 +85,7 @@ export default {
     },
 
      //修改当前页码数
-    changeCurrentPages(p){
+    changeCurrentPage(p){
           console.log(p);
           this.changeCurrentPages(p);//根据当前页数修改仓库中的数据
       },

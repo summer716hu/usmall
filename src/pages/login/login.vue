@@ -5,6 +5,7 @@
         <div class="inp"><input type="text" v-model="user.username"> </div>
         <div class="inp"><input type="text" v-model="user.password"></div>
         <div class="inp"><button @click="login">登录</button></div>
+        
     </div>
 </div>
 </template>
@@ -24,23 +25,22 @@ data () {
 },
 methods:{
     ...mapActions({
-        requsetuserList:'login/requestuserList'
+        requestuserList:'login/requestloginList'
     }),
     login(){
         requserLogin(this.user).then(res=>{
+            console.log(res);
             if(res.data.code==200){
-                this.requsetuserList(res.data.list);
+                this.requestuserList(res.data.list);
                 this.$router.push('/index/home');
             }else{
-                alert(res.data.msg)
+                alert(res.data.msg);
             }
         })
         
     }
 },
-mounted(){
-  
-}
+mounted(){}
 }
 </script>
 <style scoped>
@@ -58,8 +58,10 @@ mounted(){
     left: 50%;
     transform: translate(-50%,-50%);
     border-radius: 10px;
+    overflow: hidden;
 }
 .con h3{
+    margin-top: 30px;
     text-align: center;
 }
 .con .inp{

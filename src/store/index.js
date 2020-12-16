@@ -11,7 +11,7 @@ import login from './modules/login'//登录页
 import goods from './modules/goods'//商品管理页
 import vip from './modules/vip'//会员页
 import banner from './modules/banner'//banner页
-import seck from './modules/seckill'//seck页
+import seck from './modules/seckill'//秒杀页
 export default new Vuex.Store({
     modules: {
         menu,

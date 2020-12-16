@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../store/index'
 
 const login = ()=>import('../pages/login/login')
 const index = ()=>import('../pages/index/index')
@@ -65,26 +66,63 @@ export const indexRouters = [
 
 ]
 
-export default new Router({
+const router=new Router({
   routes: [
-   {
-     path:'/login',
-     component:login,
+    {
+      path:'/login',
+      component:login,
+    },
+    {
+     path:'/index',
+     component:index,
+     children:[
+       {
+         path:'home',
+         component:home,
+        //  beforeEnter: (to, from, next) => {
+        //    // 这是判断是否从登录进来同时保证用户是登录的状态
+        //    if(from.path=='/login' && store.state.login.list){
+        //      next()
+        //    }else{
+        //      next('/login')
+        //    }
+        //  }
+       },
+       {
+         path:'',
+         redirect:'home'
+       },
+       ...indexRouters
+     ]
    },
+  //  {
+  //    path:'/',
+  //    component:login
+  //  },
    {
-    path:'/index',
-    component:index,
-    children:[
-      {
-        path:'home',
-        component:home
-      },
-      {
-        path:'',
-        redirect:'home'
-      },
-      ...indexRouters
-    ]
+    path:'*',
+    redirect:'login'
   }
-  ]
+   ]
 })
+// 全局守卫
+router.beforeEach((to,from,next)=>{
+  // 去登陆页面
+  if(to.path=='/login'){
+    next()
+    
+  }
+  // 去的不是登录,判断用户是否登录，如果登录成功 res.data.list  
+  if(store.state.login.list.menus){
+      next()
+  }else{
+    // this.$router.push('/login')
+    // next('/login')
+  }
+  
+})
+
+console.log(store)
+
+
+export default router

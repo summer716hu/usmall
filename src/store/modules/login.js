@@ -10,12 +10,13 @@ const state = {
 const mutations = {
     changeList(state, obj) {
         state.list = obj;//获取到一个对象
-        sessionStorage.setItem('list', JSON.stringify(obj))//JSON.stringify将 JavaScript 值转换为 JSON 字符串
+        sessionStorage.setItem('list', JSON.stringify(obj))
+        //JSON.stringify将 JavaScript 值转换为 JSON 字符串
     }
 }
 
 const actions = {
-    requestuserList(context, obj) {
+    requestloginList(context, obj) {
         context.commit('changeList', obj)
     }
 }

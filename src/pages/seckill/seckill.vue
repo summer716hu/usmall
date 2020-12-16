@@ -26,15 +26,17 @@ export default {
   },
   methods: {
     willAdd() {
-      this.info.isShow = !this.info.isShow;
-      (this.info.title = "秒杀活动添加"), (this.info.isAdd = true);
-      this.$refs.one.empty();
+      this.info.isShow = !this.info.isShow
+      this.info.title = "秒杀活动添加"
+      this.info.isAdd = true
+      this.$refs.one.empty()
     },
     // 编辑
     edit(id) {
-      this.info.isShow = true;
-      (this.info.title = "秒杀活动修改"), (this.info.isAdd = false);
-      this.$refs.one.look(id);
+      this.info.isShow = true
+      this.info.title = "秒杀活动修改"
+      this.info.isAdd = false
+      this.$refs.one.look(id)
     },
   },
   mounted() {},
